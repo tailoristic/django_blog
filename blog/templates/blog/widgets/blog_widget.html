@@ -1,0 +1,26 @@
+{% if snapshots %}
+    {% for snapshot in snapshots %}
+
+        <div class="jumbotron jumbotron-fluid jumbo-color rounded">
+        <div class="container">
+            <h1 class="display-4 font-weight-bold">{{snapshot.title}}</h1>
+            <p class="lead">
+            {{snapshot.desc}}
+            </p>
+        </div>
+        </div>
+
+    {% endfor %} 
+
+{% else %}
+<div class="jumbotron jumbotron-fluid jumbo-color rounded">
+  <div class="container">
+    <h1 class="display-4 font-weight-bold">This is title.</h1>
+    <p class="lead">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis amet
+      ipsa qui et minus iure ut ratione facere reiciendis quaerat?
+    </p>
+  </div>
+</div>
+
+{% endif %}
