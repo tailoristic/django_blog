@@ -29,24 +29,6 @@ def contact(request):
         }
     return render(request, 'blog/contact.html', context)
 
-## DASHBOARD VIEW
-def dashboard(request):
-    if request.user.is_authenticated:
-        posts = Post.objects.all()
-        user = request.user
-        fullName = user.get_full_name()
-        grps = user.groups.all()
-        context = {
-        'dashboard':'active',
-        'posts':posts,
-        'fullName':fullName,
-        'groups':grps,
-        }
-        return render(request, 'blog/dashboard.html', context)
-    else:
-        return HttpResponseRedirect('/login/')
-    
-
 
 ## SIGNUP VIEW
 def user_signup(request):
@@ -87,15 +69,39 @@ def user_logout(request):
     logout(request)
     return HttpResponseRedirect('/')
 
+## DASHBOARD VIEW
+def dashboard(request):
+    if request.user.is_authenticated:
+        userId = request.user
+        if request.user.is_superuser:
+            posts = Post.objects.all()
+        else:
+            posts = Post.objects.all().filter(user_id=userId.id)
+        # posts = Post.objects.all()
+        user = request.user
+        fullName = user.get_full_name()
+        grps = user.groups.all()
+        context = {
+        'dashboard':'active',
+        'posts':posts,
+        'fullName':fullName,
+        'groups':grps,
+        }
+        return render(request, 'blog/dashboard.html', context)
+    else:
+        return HttpResponseRedirect('/login/')
+    
+
 ## ADD NEW POST
 def add_post(request):
     if request.user.is_authenticated:
+        userId = request.user
         if request.method == 'POST':
             form = PostForm(request.POST)
             if form.is_valid():
                 title = form.cleaned_data['title']
                 desc = form.cleaned_data['desc']
-                post = Post(title=title, desc=desc)
+                post = Post(title=title, desc=desc, user_id=userId.id, user_name = request.user.get_full_name())
                 post.save()
                 # form = PostForm()
                 # messages.success(request, 'Success!') 
