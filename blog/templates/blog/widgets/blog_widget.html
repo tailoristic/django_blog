@@ -3,7 +3,14 @@
 
         <div class="jumbotron jumbotron-fluid jumbo-color rounded">
         <div class="container">
+          <div class="row">
+             <div class="col-sm-8">
             <h1 class="display-4 font-weight-bold">{{snapshot.title}}</h1>
+            </div>
+            <div class="col-sm-4">
+              <h5>Author - {{snapshot.user_name}}</h5>
+            </div>
+          </div>
             <p class="lead">
             {{snapshot.desc}}
             </p>
